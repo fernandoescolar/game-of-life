@@ -1,15 +1,15 @@
 namespace GameOfLife;
 
-public class Grid
+public class Grid : IGrid
 {
-    private Cell[,] _cells;
+    private ICell[,] _cells;
 
     public Grid(int width, int height)
     {
-        _cells = new Cell[height, width];
+        _cells = new ICell[height, width];
     }
 
-    public Cell this[int i, int j]
+    public ICell this[int i, int j]
     {
         get { return _cells[i, j]; }
         set { _cells[i, j] = value; }
@@ -19,7 +19,7 @@ public class Grid
 
     public int Width { get => _cells.GetLength(1); }
 
-    public int GetNeighbors(Cell cell)
+    public int GetNeighbors(ICell cell)
     {
         var neighbors = 0;
         for (int k = -1; k <= 1; k++)
@@ -36,7 +36,7 @@ public class Grid
         return neighbors;
     }
 
-    public void UpdateState(Cell[,] cells)
+    public void UpdateState(ICell[,] cells)
     {
         _cells = cells;
     }

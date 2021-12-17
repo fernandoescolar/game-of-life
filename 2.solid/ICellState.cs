@@ -2,6 +2,6 @@ namespace GameOfLife;
 
 public interface ICellState
 {
-    bool IsMatch(Cell cell, Grid grid);
-    bool State(Cell cell);
+    bool IsMatch(ICell cell, IGrid grid);
+    bool State(ICell cell);
 }

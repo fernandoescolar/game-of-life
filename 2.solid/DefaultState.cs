@@ -2,12 +2,12 @@ namespace GameOfLife;
 
 public class DefaultState : ICellState
 {
-    public bool IsMatch(Cell cell, Grid grid)
+    public bool IsMatch(ICell cell, IGrid grid)
     {
         return true;
     }
 
-    public bool State(Cell cell)
+    public bool State(ICell cell)
     {
         return cell.State;
     }

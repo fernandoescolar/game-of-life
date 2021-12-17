@@ -3,13 +3,13 @@ namespace GameOfLife;
 public class Game
 {
     private readonly IDrawer _drawer;
-    private Cell[,] _cells;
+    private ICell[,] _cells;
     private bool _active;
 
     public Game(IDrawer drawer)
     {
         _drawer = drawer;
-        _cells  = new Cell[Heigth, Width];
+        _cells  = new ICell[Heigth, Width];
         _active = true;
     }
 
@@ -46,9 +46,9 @@ public class Game
         }
     }
 
-    private Cell[,] GetNextGeneration()
+    private ICell[,] GetNextGeneration()
     {
-        var next = new Cell[Heigth, Width];
+        var next = new ICell[Heigth, Width];
         for (int i = 0; i < Heigth; i++)
         {
             for (int j = 0; j < Width; j++)

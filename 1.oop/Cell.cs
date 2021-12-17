@@ -1,11 +1,11 @@
 namespace GameOfLife;
 
-public class Cell
+public class ICell
 {
     public bool IsAlive { get; init; }
 
-    public Cell Next(int neighbors)
-        => new Cell
+    public ICell Next(int neighbors)
+        => new ICell
         {
             IsAlive = (IsAlive, neighbors) switch
             {
@@ -16,7 +16,7 @@ public class Cell
             }
         };
 
-    public static implicit operator bool(Cell cell) => cell.IsAlive;
+    public static implicit operator bool(ICell cell) => cell.IsAlive;
 
-    public static implicit operator Cell(bool alive) => new Cell { IsAlive = alive };
+    public static implicit operator ICell(bool alive) => new ICell { IsAlive = alive };
 }

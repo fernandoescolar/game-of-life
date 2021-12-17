@@ -2,12 +2,12 @@ namespace GameOfLife;
 
 public class AliveAndLessThanTwoState : ICellState
 {
-    public bool IsMatch(Cell cell, Grid grid)
+    public bool IsMatch(ICell cell, IGrid grid)
     {
         return cell.State && grid.GetNeighbors(cell) < 2;
     }
 
-    public bool State(Cell cell)
+    public bool State(ICell cell)
     {
         return false;
     }

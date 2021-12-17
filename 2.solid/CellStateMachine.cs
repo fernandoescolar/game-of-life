@@ -1,27 +1,28 @@
 namespace GameOfLife;
 
-public class CellStateMachine
+public class CellStateMachine : ICellStateMachine
 {
-    private readonly Cell _cell;
+    private readonly ICellFactory _cellFactory;
     private readonly List<ICellState> _states;
 
-    public CellStateMachine(Cell cell)
+    private ICell _cell;
+
+    public CellStateMachine(ICellFactory cellFactory, IEnumerable<ICellState> states)
     {
-        _cell = cell;
-        _states = new List<ICellState>
-        {
-            new AliveAndLessThanTwoState(),
-            new AliveAndGreaterThanThreeState(),
-            new DeadAndThreeState(),
-            new DefaultState()
-        };
+        _cellFactory = cellFactory;
+        _states = states.ToList();
     }
 
-    public Cell NextGeneration(Grid grid)
+    public void Link(ICell cell)
+    {
+        _cell = cell;
+    }
+
+    public ICell NextGeneration(IGrid grid)
     {
         var state = _states.First(s => s.IsMatch(_cell, grid))
                            .State(_cell);
 
-        return _cell with { State = state };
+        return _cellFactory.Create(_cell.Row, _cell.Column, state);
     }
 }

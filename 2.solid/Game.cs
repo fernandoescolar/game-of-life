@@ -1,22 +1,21 @@
 namespace GameOfLife;
 
-public class Game
+public class Game : IGame
 {
-    private readonly Drawer _drawer;
-    private readonly NextGenerationCalculator _calculator;
-
-    private Grid _grid;
+    private readonly IGrid _grid;
+    private readonly IDrawer _drawer;
+    private readonly INextGenerationCalculator _calculator;
     private bool _active;
 
-    public Game(Grid grid)
+    public Game(IGrid grid, IDrawer drawer, INextGenerationCalculator calculator)
     {
         _grid = grid;
         _active = true;
-        _drawer = new Drawer();
-        _calculator = new NextGenerationCalculator();
+        _drawer = drawer;
+        _calculator = calculator;
     }
 
-    public void Run()
+    public void Start()
     {
         Console.Clear();
 
@@ -25,5 +24,10 @@ public class Game
             _drawer.Draw(_grid);
             _calculator.CalculateNextGeneration(_grid);
         }
+    }
+
+    public void Stop()
+    {
+        _active = false;
     }
 }

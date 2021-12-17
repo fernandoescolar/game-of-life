@@ -1,8 +1,15 @@
 namespace GameOfLife;
 
-public class GridFactory
+public class GridFactory : IGridFactory
 {
-    public Grid CreateGrid(int width, int height)
+    private readonly ICellFactory _cellFactory;
+
+    public GridFactory(ICellFactory cellFactory)
+    {
+        _cellFactory = cellFactory;
+    }
+
+    public IGrid Create(int width, int height)
     {
         var grid = new Grid(width, height);
         var rnd = new Random();
@@ -10,7 +17,7 @@ public class GridFactory
         {
             for (int j = 0; j < width; j++)
             {
-                grid[i, j] = new Cell(i, j, rnd.NextDouble() < 0.2);
+                grid[i, j] = _cellFactory.Create(i, j, rnd.NextDouble() < 0.2);
             }
         }
 

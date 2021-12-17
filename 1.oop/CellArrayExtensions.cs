@@ -2,7 +2,7 @@ namespace GameOfLife;
 
 public static class CellArrayExtensions
 {
-    public static int GetNeighbors(this Cell[,] cells, int i, int j)
+    public static int GetNeighbors(this ICell[,] cells, int i, int j)
     {
         var neighbors = 0;
         for (int k = -1; k <= 1; k++)

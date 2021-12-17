@@ -1,19 +1,21 @@
 namespace GameOfLife;
 
-public record Cell
+public record Cell : ICell
 {
-    private CellStateMachine _stateMachine;
+    private ICellStateMachine _stateMachine;
 
-    public Cell(int row, int column) : this(row, column, false)
+    public Cell(int row, int column, ICellStateMachine stateMachine) : this(row, column, false, stateMachine)
     {
     }
 
-    public Cell(int row, int column, bool state)
+    public Cell(int row, int column, bool state, ICellStateMachine stateMachine)
     {
-        _stateMachine = new CellStateMachine(this);
+        _stateMachine = stateMachine;
         Row = row;
         Column = column;
         State = state;
+
+        stateMachine.Link(this);
     }
 
     public int Row { get; init; }
@@ -22,6 +24,6 @@ public record Cell
 
     public bool State { get; init; }
 
-    public Cell NextGeneration(Grid grid)
+    public ICell NextGeneration(IGrid grid)
         => _stateMachine.NextGeneration(grid);
 }

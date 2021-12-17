@@ -1,10 +1,10 @@
 namespace GameOfLife;
 
-public class NextGenerationCalculator
+public class NextGenerationCalculator : INextGenerationCalculator
 {
-    public void CalculateNextGeneration(Grid grid)
+    public void CalculateNextGeneration(IGrid grid)
     {
-        var next = new Cell[grid.Height, grid.Width];
+        var next = new ICell[grid.Height, grid.Width];
         for (int i = 0; i < grid.Height; i++)
         {
             for (int j = 0; j < grid.Width; j++)

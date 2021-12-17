@@ -2,7 +2,7 @@ namespace GameOfLife;
 
 public abstract class DrawerBase : IDrawer
 {
-    public void Draw(Cell[,] cells)
+    public void Draw(ICell[,] cells)
     {
         BeforeDrawing();
 

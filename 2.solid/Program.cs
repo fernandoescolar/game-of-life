@@ -1,5 +1,7 @@
 ﻿namespace GameOfLife;
 
+using Microsoft.Extensions.DependencyInjection;
+
 public class Program
 {
     private const int Heigth = 20;
@@ -7,10 +9,32 @@ public class Program
 
     public static void Main()
     {
-        var factory = new GridFactory();
-        var cells = factory.CreateGrid(Width, Heigth);
+        IServiceCollection serviceCollection = new ServiceCollection();
+        Configure(serviceCollection);
 
-        var game = new Game(cells);
-        game.Run();
+        var serviceProvider = serviceCollection.BuildServiceProvider();
+        using var scope = serviceProvider.CreateScope();
+        var game = scope.ServiceProvider.GetRequiredService<IGame>();
+        Run(game);
+    }
+
+    private static void Configure(IServiceCollection services)
+    {
+        services.AddScoped<IGame, Game>();
+        services.AddScoped<IGridFactory, GridFactory>();
+        services.AddScoped<ICellStateMachineFactory, CellStateMachineFactory>();
+        services.AddScoped<ICellFactory, CellFactory>();
+        services.AddScoped<ICellState, AliveAndLessThanTwoState>();
+        services.AddScoped<ICellState, AliveAndGreaterThanThreeState>();
+        services.AddScoped<ICellState, DeadAndThreeState>();
+        services.AddScoped<ICellState, DefaultState>();
+        services.AddScoped<IDrawer, ConsoleDrawer>();
+        services.AddScoped<INextGenerationCalculator, NextGenerationCalculator>();
+        services.AddScoped<IGrid>(sp => sp.GetRequiredService<IGridFactory>().Create(Width, Heigth));
+    }
+
+    private static void Run(IGame game)
+    {
+        game.Start();
     }
 }
